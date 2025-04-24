@@ -2,6 +2,7 @@ package io.raeliss.runnerz.run;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -19,15 +20,37 @@ public class RunRepository {
         runs.add(new Run(2, "Evening Run", null, null, 10.0, Location.OUTDOOR));
     }
 
+    void create(Run run) {
+        runs.add(run);
+    }
+
+    boolean update(Run run, Integer findById) {
+        Optional<Run> runOptional = findById(findById);
+        if (runOptional.isPresent()) {
+            runs.remove(runOptional.get());
+            runs.add(run);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    void delete(Integer id) {
+        Optional<Run> runOptional = findById(id);
+        if (runOptional.isPresent()) {
+            runs.remove(runOptional.get());
+        }
+    }
+
     public List<Run> findAll() {
         return runs;
     }
 
-    public Run findById(int id) {
-        return runs.stream()
+    public Optional<Run> findById(int id) {
+        return Optional.ofNullable(runs.stream()
                 .filter(run -> run.id() == id)
                 .findFirst()
-                .orElse(null);
+                .orElse(null));
     }
 
 }
