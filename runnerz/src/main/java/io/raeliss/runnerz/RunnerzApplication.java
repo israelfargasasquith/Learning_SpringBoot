@@ -14,8 +14,7 @@ import ch.qos.logback.classic.Logger;
 import foo.bar.Welcome;
 import io.raeliss.runnerz.run.Location;
 import io.raeliss.runnerz.run.Run;
-
-
+import io.raeliss.runnerz.run.JdbcClientRunRepository;
 
 @SpringBootApplication
 public class RunnerzApplication {
@@ -50,13 +49,15 @@ public class RunnerzApplication {
 
 	}
 
-	@Bean
-	CommandLineRunner runner() {
-		return args -> {
-			Run run = new Run(1, "Morning Run", LocalDateTime.now(), LocalDateTime.now().plusHours(1), 5.0,
-					Location.INDOOR);
-			System.out.println(run);
-		};
-	}
+	// @Bean
+	// CommandLineRunner runner(RunRepository repository) {
+	// return args -> {
+	// Run run = new Run(8, "Morning Run", LocalDateTime.now(),
+	// LocalDateTime.now().plusHours(1), 5.0,
+	// Location.INDOOR);
+	// repository.create(run);
+	// System.out.println(run);
+	// };
+	// }
 
 }

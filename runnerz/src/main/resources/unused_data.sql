@@ -1,0 +1,7 @@
+-- INSERT INTO Run(id, title, started_on, completed_on, km, location)
+-- VALUES
+-- (1, 'Morning Run', '2023-10-01 06:30:00', '2023-10-01 07:15:00', 5.0, 'OUTDOOR'),
+-- (2, 'Evening Jog', '2023-10-02 18:00:00', '2023-10-02 18:45:00', 4.2, 'OUTDOOR'),
+-- (3, 'Weekend Marathon', '2023-10-07 08:00:00', '2023-10-07 12:30:00', 42.195, 'OUTDOOR'),
+-- (4, 'Beach Run', '2023-10-08 07:00:00', '2023-10-08 08:00:00', 7.5, 'OUTDOOR'),
+-- (5, 'Trail Adventure', '2023-10-09 09:00:00', '2023-10-09 11:30:00', 15.0, 'OUTDOOR');
