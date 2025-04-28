@@ -1,6 +1,7 @@
 package io.raeliss.runnerz;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -9,11 +10,17 @@ import org.springframework.boot.actuate.autoconfigure.wavefront.WavefrontPropert
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.support.RestClientAdapter;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import ch.qos.logback.classic.Logger;
 import foo.bar.Welcome;
 import io.raeliss.runnerz.run.Location;
 import io.raeliss.runnerz.run.Run;
+import io.raeliss.runnerz.user.User;
+import io.raeliss.runnerz.user.UserHTTPClient;
+import io.raeliss.runnerz.user.UserRestClient;
 import io.raeliss.runnerz.run.JdbcClientRunRepository;
 
 @SpringBootApplication
@@ -49,15 +56,22 @@ public class RunnerzApplication {
 
 	}
 
-	// @Bean
-	// CommandLineRunner runner(RunRepository repository) {
-	// return args -> {
-	// Run run = new Run(8, "Morning Run", LocalDateTime.now(),
-	// LocalDateTime.now().plusHours(1), 5.0,
-	// Location.INDOOR);
-	// repository.create(run);
-	// System.out.println(run);
-	// };
-	// }
+	@Bean
+	UserHTTPClient userHTTPClient() {
+		RestClient restClient = RestClient.builder()
+				.baseUrl("https://jsonplaceholder.typicode.com")
+				.build();
+		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient))
+				.build();
+		return factory.createClient(UserHTTPClient.class);
+	}
+
+	@Bean
+	CommandLineRunner runner(UserRestClient client) {
+		return args -> {
+			List<User> users = client.getUsers();
+			System.out.println("Users: " + users);
+		};
+	}
 
 }
